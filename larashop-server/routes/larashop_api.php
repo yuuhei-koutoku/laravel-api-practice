@@ -25,10 +25,10 @@ Route::post('/auth/signin', [AuthController::class, 'signin']);
 // Route::get('/products', [ProductController::class, 'index']);
 // Route::get('/products/{product}', [ProductController::class, 'show']);
 
-// Route::middleware(['auth:larashop_api', 'verified'])->group(function () {
+Route::middleware(['auth:larashop_api', 'verified'])->group(function () {
 //     Route::post('/auth/signout', [AuthController::class, 'signout']);
 
-//     Route::get('/me', [MeController::class, 'show']);
+    Route::get('/me', [MeController::class, 'show']);
 //     Route::put('/me', [MeController::class, 'update']);
 //     Route::get('/me/purchased_products', [MeController::class, 'getPurchasedProducts']);
 //     Route::get('/me/purchased_products/{product}/deal', [MeController::class, 'getPurchasedProductDeal']);
@@ -42,4 +42,4 @@ Route::post('/auth/signin', [AuthController::class, 'signin']);
 //     Route::post('/products/{product}/deal/cancel', [ProductDealController::class, 'cancel']);
 //     Route::post('/products/{product}/deal/report_delivery', [ProductDealController::class, 'reportDelivery']);
 //     Route::post('/products/{product}/deal/report_receipt', [ProductDealController::class, 'reportReceipt']);
-// });
+});
