@@ -26,7 +26,7 @@ Route::post('/auth/signin', [AuthController::class, 'signin']);
 // Route::get('/products/{product}', [ProductController::class, 'show']);
 
 Route::middleware(['auth:larashop_api', 'verified'])->group(function () {
-//     Route::post('/auth/signout', [AuthController::class, 'signout']);
+    Route::post('/auth/signout', [AuthController::class, 'signout']);
 
     Route::get('/me', [MeController::class, 'show']);
 //     Route::put('/me', [MeController::class, 'update']);
