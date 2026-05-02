@@ -91,22 +91,22 @@ class AuthService implements AuthServiceInterface
      * @exception InvalidCredentialsException
      * @return AccessToken
      */
-    // public function signin(string $email, string $password): AccessToken
-    // {
-    //     $user = User::where('email', $email)->first();
+    public function signin(string $email, string $password): AccessToken
+    {
+        $user = User::where('email', $email)->first();
 
-    //     if ($user && !$user->hasVerifiedEmail()) {
-    //         throw new AuthenticationException('メールアドレス認証が完了していません。');
-    //     }
+        if ($user && !$user->hasVerifiedEmail()) {
+            throw new AuthenticationException('メールアドレス認証が完了していません。');
+        }
 
-    //     if (!$user || !Hash::check($password, $user->password)) {
-    //         throw new InvalidCredentialsException();
-    //     }
+        if (!$user || !Hash::check($password, $user->password)) {
+            throw new InvalidCredentialsException();
+        }
 
-    //     $plainTextToken = $user->createToken(self::API_TOKEN_NAME)->plainTextToken;
+        $plainTextToken = $user->createToken(self::API_TOKEN_NAME)->plainTextToken;
 
-    //     return new AccessToken($plainTextToken, $user);
-    // }
+        return new AccessToken($plainTextToken, $user);
+    }
 
     /**
      * ログアウトする＝ユーザーの発行済みアクセストークンを削除する

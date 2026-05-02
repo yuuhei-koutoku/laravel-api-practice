@@ -79,20 +79,20 @@ class AuthController extends Controller
      * @param  SigninRequest $request
      * @return AccessTokenResource
      */
-    // public function signin(SigninRequest $request)
-    // {
-    //     $params = $request->safe()->toArray();
-    //     $email = $params['email'];
-    //     $password = $params['password'];
+    public function signin(SigninRequest $request)
+    {
+        $params = $request->safe()->toArray();
+        $email = $params['email'];
+        $password = $params['password'];
 
-    //     try {
-    //         $accessToken = $this->authService->signin($email, $password);
-    //     } catch (InvalidCredentialsException $e) {
-    //         throw new APIBusinessLogicException($e->getMessage(), 400);
-    //     }
+        try {
+            $accessToken = $this->authService->signin($email, $password);
+        } catch (InvalidCredentialsException $e) {
+            throw new APIBusinessLogicException($e->getMessage(), 400);
+        }
 
-    //     return new AccessTokenResource($accessToken);
-    // }
+        return new AccessTokenResource($accessToken);
+    }
 
     /**
      * ログアウトAPI
