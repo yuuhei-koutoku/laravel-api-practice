@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Larashop\API\Auth;
+namespace App\Http\Requests\Larashop\API\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SignupRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,11 @@ class SignupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:4',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'price' => 'required|integer|min:0',
+            'images' => 'required|array',
+            'images.*' => 'file|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 
@@ -35,8 +38,11 @@ class SignupRequest extends FormRequest
     public function attributes()
     {
         return [
-            'email' => 'メールアドレス',
-            'password' => 'パスワード',
+            'name' => '商品名',
+            'description' => '商品紹介文',
+            'price' => '金額',
+            'images' => '商品画像',
+            'images.*' => '商品画像',
         ];
     }
 }
