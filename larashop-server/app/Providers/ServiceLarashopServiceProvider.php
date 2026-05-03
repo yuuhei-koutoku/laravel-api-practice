@@ -25,10 +25,10 @@ class ServiceLarashopServiceProvider extends ServiceProvider
             \App\Services\Larashop\ImageService\ImageServiceInterface::class,
             \App\Services\Larashop\ImageService\ImageService::class
         );
-        // $this->app->bind(
-        //     \App\Services\Larashop\ProductService\ProductServiceInterface::class,
-        //     \App\Services\Larashop\ProductService\ProductService::class
-        // );
+        $this->app->bind(
+            \App\Services\Larashop\ProductService\ProductServiceInterface::class,
+            \App\Services\Larashop\ProductService\ProductService::class
+        );
         $this->app->bind(
             \App\Services\Larashop\UserService\UserServiceInterface::class,
             \App\Services\Larashop\UserService\UserService::class
