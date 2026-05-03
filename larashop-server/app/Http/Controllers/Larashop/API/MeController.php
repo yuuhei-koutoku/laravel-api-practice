@@ -37,11 +37,11 @@ class MeController extends Controller
      * @return void
      */
     public function __construct(
-        // UserServiceInterface $userService,
+        UserServiceInterface $userService,
         // ProductServiceInterface $productService
     )
     {
-        // $this->userService = $userService;
+        $this->userService = $userService;
         // $this->productService = $productService;
     }
 
@@ -64,16 +64,16 @@ class MeController extends Controller
      * @param  UpdateRequest  $request
      * @return MeResource
      */
-    // public function update(UpdateRequest $request)
-    // {
-    //     /** @var \App\Models\User $user */
-    //     $user = Auth::user();
-    //     $params = $request->safe()->toArray();
+    public function update(UpdateRequest $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $params = $request->safe()->toArray();
 
-    //     $user = $this->userService->update($user, $params);
+        $user = $this->userService->update($user, $params);
 
-    //     return new MeResource($user);
-    // }
+        return new MeResource($user);
+    }
 
     /**
      * 購入商品一覧取得API

@@ -29,7 +29,7 @@ Route::middleware(['auth:larashop_api', 'verified'])->group(function () {
     Route::post('/auth/signout', [AuthController::class, 'signout']);
 
     Route::get('/me', [MeController::class, 'show']);
-//     Route::put('/me', [MeController::class, 'update']);
+    Route::put('/me', [MeController::class, 'update']);
 //     Route::get('/me/purchased_products', [MeController::class, 'getPurchasedProducts']);
 //     Route::get('/me/purchased_products/{product}/deal', [MeController::class, 'getPurchasedProductDeal']);
 //     Route::get('/me/listed_products', [MeController::class, 'getListedProducts']);
