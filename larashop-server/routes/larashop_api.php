@@ -23,7 +23,7 @@ Route::post('/auth/signup/verify', [AuthController::class, 'signupVerify']);
 Route::post('/auth/signin', [AuthController::class, 'signin']);
 
 Route::get('/products', [ProductController::class, 'index']);
-// Route::get('/products/{product}', [ProductController::class, 'show']);
+Route::get('/products/{product}', [ProductController::class, 'show']);
 
 Route::middleware(['auth:larashop_api', 'verified'])->group(function () {
     Route::post('/auth/signout', [AuthController::class, 'signout']);
