@@ -34,10 +34,10 @@ class ProductService implements ProductServiceInterface
      *
      * @return Collection<Product>
      */
-    // public function get(): Collection
-    // {
-    //     return Product::orderBy('id', 'desc')->get();
-    // }
+    public function get(): Collection
+    {
+        return Product::orderBy('id', 'desc')->get();
+    }
 
     /*
      * 商品出品処理

@@ -12,7 +12,7 @@ interface ProductServiceInterface
     /*
      * @return Collection<Product>
      */
-    // public function get(): Collection;
+    public function get(): Collection;
     public function store(StoreCommand $storeCommand): Product;
     /*
      * @return Collection<Product>

@@ -42,12 +42,12 @@ class ProductController extends Controller
      * @param  IndexRequest  $request
      * @return ProductCollection
      */
-    // public function index(IndexRequest $request)
-    // {
-    //     $products = $this->productService->get();
+    public function index(IndexRequest $request)
+    {
+        $products = $this->productService->get();
 
-    //     return new ProductCollection($products);
-    // }
+        return new ProductCollection($products);
+    }
 
     /**
      * 出品API
