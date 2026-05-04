@@ -17,9 +17,9 @@ interface ProductServiceInterface
     /*
      * @return Collection<Product>
      */
-    // public function getPurchasedProductsByUser(User $user): Collection;
+    public function getPurchasedProductsByUser(User $user): Collection;
     /*
      * @return Collection<Product>
      */
-    // public function getListedProductsByUser(User $user): Collection;
+    public function getListedProductsByUser(User $user): Collection;
 }
