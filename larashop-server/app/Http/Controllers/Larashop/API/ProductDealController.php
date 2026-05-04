@@ -71,25 +71,25 @@ class ProductDealController extends Controller
      * @param  Product  $product
      * @return DealForMypageResource
      */
-    // public function verifyPaymentIntent(VerifyPaymentIntentRequest $request, Product $product)
-    // {
-    //     $params = $request->safe();
-    //     /** @var \App\Models\User $buyer */
-    //     $buyer = Auth::user();
+    public function verifyPaymentIntent(VerifyPaymentIntentRequest $request, Product $product)
+    {
+        $params = $request->safe();
+        /** @var \App\Models\User $buyer */
+        $buyer = Auth::user();
 
-    //     try {
-    //         $deal = $this->dealService->verifyPaymentIntent($product->deal, $buyer, $params['payment_intent_id']);
-    //     } catch (InvalidStatusTransitionException $e) {
-    //         throw new APIBusinessLogicException($e->getMessage(), 400);
-    //     } catch (IncompleteBuyerShippingInfoException $e) {
-    //         throw new APIBusinessLogicException($e->getMessage(), 400);
-    //     } catch (PaymentIntentIsNotSucceededException $e) {
-    //         throw new APIBusinessLogicException($e->getMessage(), 400);
-    //     }
-    //     $deal->load('dealEvents');
+        try {
+            $deal = $this->dealService->verifyPaymentIntent($product->deal, $buyer, $params['payment_intent_id']);
+        } catch (InvalidStatusTransitionException $e) {
+            throw new APIBusinessLogicException($e->getMessage(), 400);
+        } catch (IncompleteBuyerShippingInfoException $e) {
+            throw new APIBusinessLogicException($e->getMessage(), 400);
+        } catch (PaymentIntentIsNotSucceededException $e) {
+            throw new APIBusinessLogicException($e->getMessage(), 400);
+        }
+        $deal->load('dealEvents');
 
-    //     return new DealForMyPageResource($deal);
-    // }
+        return new DealForMyPageResource($deal);
+    }
 
     /**
      * 商品出品キャンセルAPI

@@ -64,31 +64,31 @@ class DealService implements DealServiceInterface
      * @exception PaymentIntentIsNotSucceededException
      * @return Deal
      */
-    // public function verifyPaymentIntent(Deal $deal, User $buyer, string $paymentIntentId): Deal
-    // {
-    //     $this->validateToPurchase($deal, $buyer);
+    public function verifyPaymentIntent(Deal $deal, User $buyer, string $paymentIntentId): Deal
+    {
+        $this->validateToPurchase($deal, $buyer);
 
-    //     if (!$this->stripeService->verifyPaymentIntent($paymentIntentId)) {
-    //         throw new PaymentIntentIsNotSucceededException();
-    //     }
+        if (!$this->stripeService->verifyPaymentIntent($paymentIntentId)) {
+            throw new PaymentIntentIsNotSucceededException();
+        }
 
-    //     $deal = DB::transaction(function () use ($deal, $buyer) {
-    //         $deal->buyer()->associate($buyer);
-    //         $deal->status = DealStatus::Purchased;
-    //         $deal->save();
+        $deal = DB::transaction(function () use ($deal, $buyer) {
+            $deal->buyer()->associate($buyer);
+            $deal->status = DealStatus::Purchased;
+            $deal->save();
 
-    //         $dealEvent = new DealEvent([
-    //             'actor_type' => DealEventActorType::Buyer,
-    //             'event_type' => DealEventEventType::Purchase,
-    //         ]);
-    //         $dealEvent->deal_eventable()->associate($buyer);
-    //         $deal->dealEvents()->save($dealEvent);
+            $dealEvent = new DealEvent([
+                'actor_type' => DealEventActorType::Buyer,
+                'event_type' => DealEventEventType::Purchase,
+            ]);
+            $dealEvent->deal_eventable()->associate($buyer);
+            $deal->dealEvents()->save($dealEvent);
 
-    //         return $deal->fresh();
-    //     });
+            return $deal->fresh();
+        });
 
-    //     return $deal;
-    // }
+        return $deal;
+    }
 
     /*
      * 商品出品キャンセル
