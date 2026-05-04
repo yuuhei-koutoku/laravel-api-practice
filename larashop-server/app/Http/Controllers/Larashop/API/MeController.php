@@ -38,11 +38,11 @@ class MeController extends Controller
      */
     public function __construct(
         UserServiceInterface $userService,
-        // ProductServiceInterface $productService
+        ProductServiceInterface $productService
     )
     {
         $this->userService = $userService;
-        // $this->productService = $productService;
+        $this->productService = $productService;
     }
 
     /**
@@ -81,14 +81,14 @@ class MeController extends Controller
      * @param  GetPurchasedProductsRequest  $request
      * @return ProductForMyPageCollection
      */
-    // public function getPurchasedProducts(GetPurchasedProductsRequest $request)
-    // {
-    //     /** @var \App\Models\User $user */
-    //     $user = Auth::user();
-    //     $products = $this->productService->getPurchasedProductsByUser($user);
+    public function getPurchasedProducts(GetPurchasedProductsRequest $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $products = $this->productService->getPurchasedProductsByUser($user);
 
-    //     return new ProductForMyPageCollection($products);
-    // }
+        return new ProductForMyPageCollection($products);
+    }
 
     /**
      * 購入商品の取引詳細情報取得API
@@ -96,11 +96,11 @@ class MeController extends Controller
      * @param  GetPurchasedProductDealRequest  $request
      * @return DealForMyPageResource
      */
-    // public function getPurchasedProductDeal(GetPurchasedProductDealRequest $request, Product $product)
-    // {
-    //     $product->deal->load('dealEvents');
-    //     return new DealForMyPageResource($product->deal);
-    // }
+    public function getPurchasedProductDeal(GetPurchasedProductDealRequest $request, Product $product)
+    {
+        $product->deal->load('dealEvents');
+        return new DealForMyPageResource($product->deal);
+    }
 
     /**
      * 出品商品一覧取得API
@@ -108,14 +108,14 @@ class MeController extends Controller
      * @param  GetListedProductsRequest  $request
      * @return ProductForMyPageCollection
      */
-    // public function getListedProducts(GetListedProductsRequest $request)
-    // {
-    //     /** @var \App\Models\User $user */
-    //     $user = Auth::user();
-    //     $products = $this->productService->getListedProductsByUser($user);
+    public function getListedProducts(GetListedProductsRequest $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $products = $this->productService->getListedProductsByUser($user);
 
-    //     return new ProductForMyPageCollection($products);
-    // }
+        return new ProductForMyPageCollection($products);
+    }
 
     /**
      * 出品商品の取引詳細情報取得API
@@ -123,10 +123,10 @@ class MeController extends Controller
      * @param  GetListedProductDealRequest  $request
      * @return DealForMyPageResource
      */
-    // public function getListedProductDeal(GetListedProductDealRequest $request, Product $product)
-    // {
-    //     $product->deal->load('dealEvents');
-    //     return new DealForMyPageResource($product->deal);
-    // }
+    public function getListedProductDeal(GetListedProductDealRequest $request, Product $product)
+    {
+        $product->deal->load('dealEvents');
+        return new DealForMyPageResource($product->deal);
+    }
 
 }
