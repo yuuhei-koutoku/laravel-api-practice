@@ -17,10 +17,10 @@ class ServiceLarashopServiceProvider extends ServiceProvider
             \App\Services\Larashop\AuthService\AuthServiceInterface::class,
             \App\Services\Larashop\AuthService\AuthService::class
         );
-        // $this->app->bind(
-        //     \App\Services\Larashop\DealService\DealServiceInterface::class,
-        //     \App\Services\Larashop\DealService\DealService::class
-        // );
+        $this->app->bind(
+            \App\Services\Larashop\DealService\DealServiceInterface::class,
+            \App\Services\Larashop\DealService\DealService::class
+        );
         $this->app->bind(
             \App\Services\Larashop\ImageService\ImageServiceInterface::class,
             \App\Services\Larashop\ImageService\ImageService::class
@@ -35,17 +35,17 @@ class ServiceLarashopServiceProvider extends ServiceProvider
         );
 
         // envがtestingか、services.stripe.secretが設定されていない場合はStripeServiceのモックを返す
-        // if (app()->environment('testing') || empty(config('services.stripe.secret'))) {
-        //     $this->app->bind(
-        //         \App\Services\Larashop\StripeService\StripeServiceInterface::class,
-        //         \App\Services\Larashop\StripeService\StripeServiceMock::class
-        //     );
-        // } else {
-        //     $this->app->bind(
-        //         \App\Services\Larashop\StripeService\StripeServiceInterface::class,
-        //         \App\Services\Larashop\StripeService\StripeService::class
-        //     );
-        // }
+        if (app()->environment('testing') || empty(config('services.stripe.secret'))) {
+            $this->app->bind(
+                \App\Services\Larashop\StripeService\StripeServiceInterface::class,
+                \App\Services\Larashop\StripeService\StripeServiceMock::class
+            );
+        } else {
+            $this->app->bind(
+                \App\Services\Larashop\StripeService\StripeServiceInterface::class,
+                \App\Services\Larashop\StripeService\StripeService::class
+            );
+        }
 
 
     }
