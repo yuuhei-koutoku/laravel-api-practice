@@ -98,20 +98,20 @@ class ProductDealController extends Controller
      * @param  Product  $product
      * @return DealForMyPageResource
      */
-    // public function cancel(CancelRequest $request, Product $product)
-    // {
-    //     /** @var \App\Models\User $seller */
-    //     $seller = Auth::user();
+    public function cancel(CancelRequest $request, Product $product)
+    {
+        /** @var \App\Models\User $seller */
+        $seller = Auth::user();
 
-    //     try {
-    //         $deal = $this->dealService->cancel($product->deal, $seller);
-    //     } catch (InvalidStatusTransitionException $e) {
-    //         throw new APIBusinessLogicException($e->getMessage(), 400);
-    //     }
-    //     $deal->load('dealEvents');
+        try {
+            $deal = $this->dealService->cancel($product->deal, $seller);
+        } catch (InvalidStatusTransitionException $e) {
+            throw new APIBusinessLogicException($e->getMessage(), 400);
+        }
+        $deal->load('dealEvents');
 
-    //     return new DealForMyPageResource($deal);
-    // }
+        return new DealForMyPageResource($deal);
+    }
 
     /**
      * 配送報告API

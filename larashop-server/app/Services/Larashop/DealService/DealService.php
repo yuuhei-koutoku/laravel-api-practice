@@ -98,27 +98,27 @@ class DealService implements DealServiceInterface
      * @exception InvalidStatusTransitionException
      * @return Deal
      */
-    // public function cancel(Deal $deal, User $seller): Deal
-    // {
-    //     if (!in_array($deal->status, [DealStatus::Listing])) {
-    //         throw new InvalidStatusTransitionException();
-    //     }
+    public function cancel(Deal $deal, User $seller): Deal
+    {
+        if (!in_array($deal->status, [DealStatus::Listing])) {
+            throw new InvalidStatusTransitionException();
+        }
 
-    //     $deal = DB::transaction(function () use ($deal, $seller) {
-    //         $deal->update(['status' => DealStatus::Canceled]);
+        $deal = DB::transaction(function () use ($deal, $seller) {
+            $deal->update(['status' => DealStatus::Canceled]);
 
-    //         $dealEvent = new DealEvent([
-    //             'actor_type' => DealEventActorType::Seller,
-    //             'event_type' => DealEventEventType::Cancel,
-    //         ]);
-    //         $dealEvent->deal_eventable()->associate($seller);
-    //         $deal->dealEvents()->save($dealEvent);
+            $dealEvent = new DealEvent([
+                'actor_type' => DealEventActorType::Seller,
+                'event_type' => DealEventEventType::Cancel,
+            ]);
+            $dealEvent->deal_eventable()->associate($seller);
+            $deal->dealEvents()->save($dealEvent);
 
-    //         return $deal->fresh();
-    //     });
+            return $deal->fresh();
+        });
 
-    //     return $deal;
-    // }
+        return $deal;
+    }
 
     /*
      * 配送報告
