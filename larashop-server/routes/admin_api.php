@@ -27,8 +27,8 @@ Route::middleware(['auth:admin_api'])->group(function () {
     Route::get('/deals', [DealController::class, 'index']);
     Route::get('/deals/{deal}', [DealController::class, 'show']);
 
-//     Route::get('/users', [UserController::class, 'index']);
-//     Route::get('/users/{user}', [UserController::class, 'show']);
-//     Route::get('/users/{user}/purchased_deals', [UserController::class, 'getPurchasedDeals']);
-//     Route::get('/users/{user}/listed_deals', [UserController::class, 'getListedDeals']);
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::get('/users/{user}/purchased_deals', [UserController::class, 'getPurchasedDeals']);
+    Route::get('/users/{user}/listed_deals', [UserController::class, 'getListedDeals']);
 });
