@@ -13,18 +13,18 @@ class ServiceAdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->bind(
-        //     \App\Services\Admin\AuthService\AuthServiceInterface::class,
-        //     \App\Services\Admin\AuthService\AuthService::class
-        // );
-        // $this->app->bind(
-        //     \App\Services\Admin\DealService\DealServiceInterface::class,
-        //     \App\Services\Admin\DealService\DealService::class
-        // );
-        // $this->app->bind(
-        //     \App\Services\Admin\UserService\UserServiceInterface::class,
-        //     \App\Services\Admin\UserService\UserService::class
-        // );
+        $this->app->bind(
+            \App\Services\Admin\AuthService\AuthServiceInterface::class,
+            \App\Services\Admin\AuthService\AuthService::class
+        );
+        $this->app->bind(
+            \App\Services\Admin\DealService\DealServiceInterface::class,
+            \App\Services\Admin\DealService\DealService::class
+        );
+        $this->app->bind(
+            \App\Services\Admin\UserService\UserServiceInterface::class,
+            \App\Services\Admin\UserService\UserService::class
+        );
     }
 
     /**
