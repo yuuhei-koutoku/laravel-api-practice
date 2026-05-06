@@ -25,7 +25,7 @@ Route::middleware(['auth:admin_api'])->group(function () {
     Route::get('/auth/me', [AuthController::class, 'getMe']);
 
     Route::get('/deals', [DealController::class, 'index']);
-//     Route::get('/deals/{deal}', [DealController::class, 'show']);
+    Route::get('/deals/{deal}', [DealController::class, 'show']);
 
 //     Route::get('/users', [UserController::class, 'index']);
 //     Route::get('/users/{user}', [UserController::class, 'show']);
