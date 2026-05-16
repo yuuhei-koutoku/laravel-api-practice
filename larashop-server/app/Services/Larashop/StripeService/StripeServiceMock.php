@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\User;
 use Stripe\PaymentIntent;
 
+// テスト実行時に使用されるモック（ダミーの処理）で、Stripe APIサーバーへのHTTP通信は発生しない
 class StripeServiceMock implements StripeServiceInterface
 {
     public function createPaymentIntent(Product $product, User $buyer): PaymentIntent

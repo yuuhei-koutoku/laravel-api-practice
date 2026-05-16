@@ -21,23 +21,29 @@ class SignupVerifyTest extends TestCase
      */
     public function test_signup_verify()
     {
+        // 認証されていないユーザーを作成（email_verified_atがnullのため未認証）
         $user = User::factory()->create([
             'email' => 'test@example.com',
             'email_verified_at' => null,
         ]);
+
+        // 有効期限を設定
         $expires = Carbon::now()->addMinutes(60);
+        // 署名を生成
         $signature = hash_hmac(
             'sha256',
             $user->getKey() . $expires->getTimestamp(),
             config('app.key')
         );
 
+        // 会員本登録APIを呼び出す
         $response = $this->postJson('/larashop/api/auth/signup/verify', [
             'id' => $user->getKey(),
             'expires' => $expires->getTimestamp(),
             'signature' => $signature,
         ]);
 
+        // レスポンスが期待通りであることを確認
         $response->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>
@@ -59,29 +65,35 @@ class SignupVerifyTest extends TestCase
             'email_verified_at' => now(),
         ]);
     }
-    
+
     /*
      * トークンが不正なケース
      */
     public function test_signup_verify_invalid_token()
     {
+        // 認証されていないユーザーを作成
         $user = User::factory()->create([
             'email' => 'test@example.com',
             'email_verified_at' => null,
         ]);
+
+        // 有効期限を設定
         $expires = Carbon::now()->addMinutes(60);
+        // 署名を生成
         $signature = hash_hmac(
             'sha256',
             $user->getKey() . $expires->getTimestamp(),
             config('app.key')
         );
 
+        // 会員本登録APIを呼び出す
         $response = $this->postJson('/larashop/api/auth/signup/verify', [
             'id' => $user->getKey(),
             'expires' => $expires->getTimestamp(),
-            'signature' => 'invalid-' . $signature,
+            'signature' => 'invalid-' . $signature, // 不正な署名を使用
         ]);
 
+        // レスポンスが期待通りであることを確認
         $response->assertStatus(400)
         ->assertJson(
             fn (AssertableJson $json) =>
@@ -100,8 +112,10 @@ class SignupVerifyTest extends TestCase
      */
     public function test_signup_verify_validation_error()
     {
+        // id, expires, signatureを未入力で会員本登録APIを呼び出す
         $response = $this->postJson('/larashop/api/auth/signup/verify', []);
 
+        // バリデーションエラーが発生したことを確認
         $response->assertStatus(422)
         ->assertJson(
             fn (AssertableJson $json) =>

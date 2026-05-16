@@ -88,7 +88,7 @@ class AuthController extends Controller
         try {
             $accessToken = $this->authService->signin($email, $password);
         } catch (InvalidCredentialsException $e) {
-            throw new APIBusinessLogicException($e->getMessage(), 400);
+            throw new APIBusinessLogicException($e->getMessage(), 401);
         }
 
         return new AccessTokenResource($accessToken);

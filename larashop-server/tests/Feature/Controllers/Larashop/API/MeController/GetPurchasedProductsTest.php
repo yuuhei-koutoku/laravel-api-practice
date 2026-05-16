@@ -30,6 +30,8 @@ class GetPurchasedProductsTest extends TestCase
             ['seller_id' => $other->id, 'buyer_id' => $buyer->id, 'product_id' => $products[2]->id, 'status' => 'listing']
         ))->create();
 
+        // 自分が購入者（Buyer）になっている商品の一覧を取得
+
         $response = $this->actingAs($buyer)->getJson('/larashop/api/me/purchased_products');
         $response->assertStatus(200)
             ->assertJson(fn (AssertableJson $json) => $json->has('products', 2));

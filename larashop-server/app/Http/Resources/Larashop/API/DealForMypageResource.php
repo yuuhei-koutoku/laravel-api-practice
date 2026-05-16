@@ -19,7 +19,7 @@ class DealForMyPageResource extends JsonResource
             'id' => $this->id,
             'is_purchasable' => $this->is_purchasable,
             'seller_info' => new SellerInfoResource($this->seller),
-            'buyer_shipping_info' => new BuyerShippingInfoResource($this->buyer),
+            'buyer_shipping_info' => new BuyerShippingInfoResource($this->buyer), // センシティブな情報を含む
             'status' => $this->status,
             'deal_events' => DealEventResource::collection($this->whenLoaded('dealEvents')),
         ];

@@ -32,8 +32,11 @@ class GetListedProductDealTest extends TestCase
             ['actor_type' => DealEventActorType::Seller, 'event_type' => DealEventEventType::Listing],
         ))->create();
 
+        // 購入者でログインし、用意したproduct_idを使って、出品商品の取引詳細情報取得APIを呼び出す
         $response = $this->actingAs($buyer)->getJson('/larashop/api/me/listed_products/' . $product->id . '/deal');
 
+        // レスポンスが期待通りであることを確認
+        // buyer_shipping_infoやdeal_eventsなど、センシティブな情報も取得できること
         $response->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>
