@@ -37,6 +37,7 @@ class GetProductTest extends TestCase
         });
         DealEvent::factory()->for($deals[0])->for($buyer, 'deal_eventable')->create(['actor_type' => 'buyer', 'event_type' => 'purchase']);
 
+        // 1つ目の取引のproduct_idをパスにセットして、商品詳細取得APIを呼び出す
         $response = $this->getJson('/larashop/api/products/' . $deals->get(0)->product_id);
 
         $product = $products->get(0);
@@ -48,7 +49,7 @@ class GetProductTest extends TestCase
                 $json->where('id', $product->id)
                     ->where('name', $product->name)
                     ->where('description', $product->description)
-                    ->whereType('image_url', 'string') 
+                    ->whereType('image_url', 'string')
                     ->whereType('image_urls', 'array')
                     ->where('price', $product->price)
                     ->where('deal.id', $deal->id)

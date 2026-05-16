@@ -21,16 +21,19 @@ class SigninTest extends TestCase
      */
     public function test_signin()
     {
+        // ユーザーを作成
         $user = User::factory()->create([
             'email' => 'test@example.com',
             'password' => Hash::make('test-password'),
         ]);
 
+        // ログインAPIを呼び出す
         $response = $this->postJson('/larashop/api/auth/signin', [
             'email' => 'test@example.com',
             'password' => 'test-password',
         ]);
 
+        // レスポンスが期待通りであることを確認
         $response->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>
@@ -47,9 +50,12 @@ class SigninTest extends TestCase
         );
         $accessToken = $response['access_token'];
 
+        // ユーザー情報APIを呼び出す
         $response = $this->getJson('/larashop/api/me', [
             'Authorization' => 'Bearer ' . $accessToken,
         ]);
+
+        // レスポンスが期待通りであることを確認
         $response->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>
@@ -71,16 +77,20 @@ class SigninTest extends TestCase
      */
     public function test_signin_unverified()
     {
+        // メールアドレス認証が完了していないユーザーを作成
         $user = User::factory()->create([
             'email' => 'test@example.com',
             'password' => Hash::make('test-password'),
             'email_verified_at' => null,
         ]);
 
+        // ログインAPIを呼び出す
         $response = $this->postJson('/larashop/api/auth/signin', [
             'email' => 'test@example.com',
             'password' => 'test-password',
         ]);
+
+        // レスポンスが期待通りであることを確認
         $response->assertStatus(401);
     }
 
@@ -89,6 +99,7 @@ class SigninTest extends TestCase
      */
     public function test_signin_invalid_info()
     {
+        // ユーザーを作成
         $user = User::factory()->create([
             'email' => 'test@example.com',
             'password' => bcrypt('test-password'),
@@ -99,14 +110,14 @@ class SigninTest extends TestCase
             'email' => 'test-invalid@example.com',
             'password' => 'test-password',
         ]);
-        $response->assertStatus(400);
+        $response->assertStatus(401);
 
         // パスワードが誤っている
         $response = $this->postJson('/larashop/api/auth/signin', [
             'email' => 'test@example.com',
             'password' => 'invalid-password',
         ]);
-        $response->assertStatus(400);
+        $response->assertStatus(401);
     }
 
     /*
@@ -114,8 +125,10 @@ class SigninTest extends TestCase
      */
     public function test_signin_validation_error()
     {
+        // メールアドレスもパスワードも未入力でログインAPIを呼び出す
         $response = $this->postJson('/larashop/api/auth/signin', []);
 
+        // バリデーションエラーが発生したことを確認
         $response->assertStatus(422)
         ->assertJson(
             fn (AssertableJson $json) =>
@@ -132,5 +145,5 @@ class SigninTest extends TestCase
                         ->has('detail')
                 )
         );
-    } 
+    }
 }

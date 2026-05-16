@@ -91,6 +91,8 @@ class ProductService implements ProductServiceInterface
      */
     public function getPurchasedProductsByUser(User $user): Collection
     {
+        // Userを出品者とみなしたら、それに紐づくDeal一覧をN+1問題回避のためProductも一緒にDBから取得
+        // Dealに必ず1つ紐づくProductを取り出し返す
         $products = $user->dealsAsBuyer()->with('product')->get()->pluck('product');
 
         return $products;

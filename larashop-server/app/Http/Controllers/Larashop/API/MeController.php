@@ -125,7 +125,9 @@ class MeController extends Controller
      */
     public function getListedProductDeal(GetListedProductDealRequest $request, Product $product)
     {
+        // N+1問題回避のため、load() + whenLoaded()を使用
         $product->deal->load('dealEvents');
+
         return new DealForMyPageResource($product->deal);
     }
 

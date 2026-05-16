@@ -50,6 +50,7 @@ class CreatePaymentIntentTest extends TestCase
         // deal_eventsの件数が1件であることを確認
         $this->assertEquals(1, $deal->dealEvents()->count());
 
+        // 購入者でログインし、商品支払いインテント作成APIを呼び出す
         $response = $this->actingAs($this->buyer)->postJson('/larashop/api/products/' . $deal->product_id . '/deal/payment_intent');
         $response->assertStatus(200)
         ->assertJson(
@@ -120,7 +121,6 @@ class CreatePaymentIntentTest extends TestCase
         // deal_eventsの件数が1件のままであることを確認
         $this->assertEquals(1, $deal->dealEvents()->count());
     }
-        
 
     /**
      * 出品者が購入しようとした場合は認可エラー

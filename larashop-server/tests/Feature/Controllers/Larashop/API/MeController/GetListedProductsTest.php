@@ -30,6 +30,8 @@ class GetListedProductsTest extends TestCase
             ['seller_id' => $other->id, 'buyer_id' => $buyer->id, 'product_id' => $products[2]->id, 'status' => 'listing']
         ))->create();
 
+        // 自分が出品者（Seller）になっている商品の一覧が取得できることを確認
+
         $response = $this->actingAs($buyer)->getJson('/larashop/api/me/listed_products');
         $response->assertStatus(200)
             ->assertJson(fn (AssertableJson $json) => $json->has('products', 0));

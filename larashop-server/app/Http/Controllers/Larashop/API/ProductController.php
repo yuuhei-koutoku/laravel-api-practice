@@ -80,10 +80,12 @@ class ProductController extends Controller
      * 商品一覧取得API
      *
      * @param  ShowRequest  $request
+     * @param  Product $product
      * @return ProductResource
      */
     public function show(ShowRequest $request, Product $product)
     {
+        // Route Model Bindingを使用して、Productモデルを取得
         return new ProductResource($product);
     }
 }
