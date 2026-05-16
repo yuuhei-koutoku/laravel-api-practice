@@ -58,6 +58,7 @@ class AuthService implements AuthServiceInterface
      * @exception UserAlreadyVerifiedException
      * @exception UserNotFoundException
      * @return AccessToken
+     * @see https://readouble.com/laravel/10.x/ja/verification.html#the-email-verification-handler
      */
     public function signupVerify(int $id, int $expires, string $signature): AccessToken
     {
@@ -75,8 +76,13 @@ class AuthService implements AuthServiceInterface
             throw new UserAlreadyVerifiedException();
         }
 
+        // $request->fulfill()が内部的に行っている処理を自前で行う
+        // 認証済みユーザーのmarkEmailAsVerifiedメソッドを呼び出す
         $user->markEmailAsVerified();
+        // Illuminate\Auth\Events\Verifiedイベントを発行
         event(new Verified($user));
+
+        // アクセストークンを作成
         $accessToken = $user->createToken(self::API_TOKEN_NAME)->plainTextToken;
 
         return new AccessToken($accessToken, $user);
@@ -93,6 +99,7 @@ class AuthService implements AuthServiceInterface
      */
     public function signin(string $email, string $password): AccessToken
     {
+        // メールアドレスをもとに、ユーザーを取得
         $user = User::where('email', $email)->first();
 
         if ($user && !$user->hasVerifiedEmail()) {
@@ -103,6 +110,7 @@ class AuthService implements AuthServiceInterface
             throw new InvalidCredentialsException();
         }
 
+        // アクセストークンを作成
         $plainTextToken = $user->createToken(self::API_TOKEN_NAME)->plainTextToken;
 
         return new AccessToken($plainTextToken, $user);
@@ -115,6 +123,7 @@ class AuthService implements AuthServiceInterface
      */
     public function signout(): OperationResult
     {
+        // ログインしていない場合はログアウトできない
         if (!Auth::check()) {
             return new OperationResult(false);
         }
@@ -122,7 +131,9 @@ class AuthService implements AuthServiceInterface
         /** @var User $user **/
         $user = Auth::user();
 
+        // アクセストークンを削除
         $user->tokens()->delete();
+
         return new OperationResult(true);
     }
 

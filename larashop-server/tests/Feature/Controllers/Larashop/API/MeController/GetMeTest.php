@@ -17,9 +17,13 @@ class GetMeTest extends TestCase
      */
     public function test_get_me(): void
     {
+        // ユーザーを作成
         $user = User::factory()->create();
+
+        // ログイン認証を行った上で、ユーザー情報APIを呼び出す
         $response = $this->actingAs($user)->getJson('/larashop/api/me');
 
+        // レスポンスが期待通りであることを確認
         $response->assertStatus(200)
         ->assertJson(
             fn (AssertableJson $json) =>

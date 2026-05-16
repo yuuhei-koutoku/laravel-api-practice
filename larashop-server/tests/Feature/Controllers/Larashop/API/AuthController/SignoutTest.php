@@ -19,20 +19,25 @@ class SignoutTest extends TestCase
      */
     public function test_signout()
     {
+        // ユーザーを作成
         User::factory()->create([
             'email' => 'test@example.com',
             'password' => Hash::make('test-password'),
         ]);
+        // アクセストークンが0件であることを確認
         $this->assertDatabaseCount('personal_access_tokens', 0);
 
+        // ログインAPIを呼び出す
         $loginResponse = $this->postJson('/larashop/api/auth/signin', [
             'email' => 'test@example.com',
             'password' => 'test-password',
         ]);
+        // アクセストークンが1件であることを確認
         $this->assertDatabaseCount('personal_access_tokens', 1);
 
         $accessToken = $loginResponse['access_token'];
 
+        // ログアウトAPIを呼び出す
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $accessToken,
         ])->postJson('/larashop/api/auth/signout');
@@ -44,6 +49,7 @@ class SignoutTest extends TestCase
          */
         $this->assertDatabaseCount('personal_access_tokens', 0);
 
+        // レスポンスが期待通りであることを確認
         $response->assertStatus(200)
             ->assertJson([
                 'success' => true,

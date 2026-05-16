@@ -13,6 +13,7 @@ class StripeService implements StripeServiceInterface
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
+        // Stripe APIサーバーへPaymentIntent作成リクエストを送信する
         $paymentIntent = PaymentIntent::create([
             'amount' => $product->price,
             'currency' => 'jpy',
@@ -28,6 +29,7 @@ class StripeService implements StripeServiceInterface
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
+        // Stripe APIサーバーへPaymentIntent取得リクエストを送信する
         $paymentIntent = PaymentIntent::retrieve($paymentIntentId);
 
         return $paymentIntent->status === 'succeeded';
